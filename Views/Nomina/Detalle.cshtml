@@ -1,0 +1,50 @@
+﻿@model IEnumerable<SIGENOM.Models.Entities.NominaEmpleado>
+@{
+    ViewData["Title"] = "Detalle Nómina";
+    var periodo = ViewBag.Periodo as SIGENOM.Models.Entities.PeriodoNomina;
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h5 class="fw-bold mb-0">@periodo?.Descripcion</h5>
+        <small class="text-muted">@periodo?.FechaInicio.ToString("dd/MM/yyyy") - @periodo?.FechaFin.ToString("dd/MM/yyyy")</small>
+    </div>
+    @if (periodo?.Estado == "Abierto" && Model.Any())
+    {
+        <form asp-action="Aprobar" method="post">
+            <input type="hidden" name="id" value="@periodo.PeriodoId" />
+            <button class="btn btn-success"><i class="bi bi-check-circle me-1"></i> Aprobar y Cerrar</button>
+        </form>
+    }
+</div>
+
+<div class="card border-0 shadow-sm">
+    <div class="card-body p-0">
+        <table class="table table-hover mb-0">
+            <thead class="table-light">
+                <tr><th>Empleado</th><th>Departamento</th><th>Salario Base</th><th>Deducciones</th><th>Neto</th><th>Estado</th><th></th></tr>
+            </thead>
+            <tbody>
+                @foreach (var n in Model)
+                {
+                    <tr>
+                        <td>@n.Empleado?.NombreCompleto</td>
+                        <td>@n.Empleado?.Departamento?.Nombre</td>
+                        <td>RD$ @n.SalarioBase.ToString("N2")</td>
+                        <td>RD$ @n.TotalDeducciones.ToString("N2")</td>
+                        <td class="fw-bold text-success">RD$ @n.SalarioNeto.ToString("N2")</td>
+                        <td><span class="badge @(n.Estado == "Aprobado" ? "bg-success" : "bg-warning text-dark")">@n.Estado</span></td>
+                        <td>
+                            @if (n.Estado == "Aprobado")
+                            {
+                                <a asp-action="Comprobante" asp-route-id="@n.NominaEmpleadoId" class="btn btn-sm btn-outline-primary">
+                                    <i class="bi bi-file-text"></i>
+                                </a>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

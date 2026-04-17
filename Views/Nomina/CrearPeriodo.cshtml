@@ -1,0 +1,28 @@
+﻿@model SIGENOM.Models.Entities.PeriodoNomina
+@{
+    ViewData["Title"] = "Nuevo Período";
+}
+
+<div class="card border-0 shadow-sm" style="max-width:500px;">
+    <div class="card-body p-4">
+        <h5 class="fw-bold mb-4">Nuevo Período de Nómina</h5>
+        <form asp-action="CrearPeriodo" method="post">
+            <div class="mb-3">
+                <label class="form-label">Descripción *</label>
+                <input asp-for="Descripcion" class="form-control" placeholder="Ej: Nómina Enero 2025" required />
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Fecha Inicio *</label>
+                <input asp-for="FechaInicio" class="form-control" type="date" required />
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Fecha Fin *</label>
+                <input asp-for="FechaFin" class="form-control" type="date" required />
+            </div>
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-primary">Crear Período</button>
+                <a asp-action="Index" class="btn btn-outline-secondary">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>

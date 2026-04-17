@@ -1,0 +1,61 @@
+﻿@model SIGENOM.Models.Entities.ComprobantePago
+@{
+    ViewData["Title"] = "Comprobante";
+    var n = Model.NominaEmpleado!;
+}
+
+<div class="card border-0 shadow-sm mx-auto" style="max-width:600px;">
+    <div class="card-body p-4">
+        <div class="text-center mb-4">
+            <h4 class="fw-bold text-primary">SIGENOM</h4>
+            <p class="text-muted mb-1">Comprobante de Pago</p>
+            <strong>@Model.NumeroComprobante</strong>
+        </div>
+        <hr />
+        <dl class="row">
+            <dt class="col-5">Empleado</dt>
+            <dd class="col-7">@n.Empleado?.NombreCompleto</dd>
+            <dt class="col-5">Cédula</dt>
+            <dd class="col-7">@n.Empleado?.Cedula</dd>
+            <dt class="col-5">Departamento</dt>
+            <dd class="col-7">@n.Empleado?.Departamento?.Nombre</dd>
+            <dt class="col-5">Cargo</dt>
+            <dd class="col-7">@n.Empleado?.Cargo?.Nombre</dd>
+            <dt class="col-5">Período</dt>
+            <dd class="col-7">@n.Periodo?.Descripcion</dd>
+        </dl>
+        <hr />
+        <table class="table table-sm">
+            <thead class="table-light">
+                <tr><th>Concepto</th><th>Tipo</th><th class="text-end">Monto</th></tr>
+            </thead>
+            <tbody>
+                @foreach (var d in n.Detalles)
+                {
+                    <tr>
+                        <td>@d.Concepto?.Nombre</td>
+                        <td><span class="badge @(d.Concepto?.TipoConcepto?.Clasificacion == "Ingreso" ? "bg-success" : "bg-danger")">@d.Concepto?.TipoConcepto?.Clasificacion</span></td>
+                        <td class="text-end">RD$ @d.Monto.ToString("N2")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <hr />
+        <div class="row text-end">
+            <div class="col"><strong>Salario Bruto:</strong> RD$ @n.SalarioBruto.ToString("N2")</div>
+        </div>
+        <div class="row text-end">
+            <div class="col text-danger"><strong>Deducciones:</strong> RD$ @n.TotalDeducciones.ToString("N2")</div>
+        </div>
+        <div class="row text-end mt-2">
+            <div class="col fs-5 fw-bold text-success">NETO A PAGAR: RD$ @n.SalarioNeto.ToString("N2")</div>
+        </div>
+        <hr />
+        <div class="text-center mt-3">
+            <button onclick="window.print()" class="btn btn-outline-primary">
+                <i class="bi bi-printer me-1"></i> Imprimir
+            </button>
+            <a asp-action="Index" class="btn btn-outline-secondary ms-2">Volver</a>
+        </div>
+    </div>
+</div>

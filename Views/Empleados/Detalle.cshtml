@@ -1,0 +1,37 @@
+﻿@model SIGENOM.Models.Entities.Empleado
+@{
+    ViewData["Title"] = "Detalle Empleado";
+}
+
+<div class="card border-0 shadow-sm" style="max-width:600px;">
+    <div class="card-header bg-white border-0 pt-4 px-4 d-flex justify-content-between">
+        <h5 class="fw-bold">@Model.NombreCompleto</h5>
+        <span class="badge @(Model.Estado == "Activo" ? "bg-success" : "bg-secondary") fs-6">@Model.Estado</span>
+    </div>
+    <div class="card-body px-4">
+        <dl class="row">
+            <dt class="col-5">Cédula</dt>
+            <dd class="col-7">@Model.Cedula</dd>
+            <dt class="col-5">Email</dt>
+            <dd class="col-7">@Model.Email</dd>
+            <dt class="col-5">Teléfono</dt>
+            <dd class="col-7">@Model.Telefono</dd>
+            <dt class="col-5">Departamento</dt>
+            <dd class="col-7">@Model.Departamento?.Nombre</dd>
+            <dt class="col-5">Cargo</dt>
+            <dd class="col-7">@Model.Cargo?.Nombre</dd>
+            <dt class="col-5">Salario Base</dt>
+            <dd class="col-7">RD$ @Model.SalarioBase.ToString("N2")</dd>
+            <dt class="col-5">Fecha Ingreso</dt>
+            <dd class="col-7">@Model.FechaIngreso.ToString("dd/MM/yyyy")</dd>
+            <dt class="col-5">Dirección</dt>
+            <dd class="col-7">@Model.Direccion</dd>
+        </dl>
+        <div class="d-flex gap-2 mt-3">
+            <a asp-action="Editar" asp-route-id="@Model.EmpleadoId" class="btn btn-warning">
+                <i class="bi bi-pencil me-1"></i> Editar
+            </a>
+            <a asp-action="Index" class="btn btn-outline-secondary">Volver</a>
+        </div>
+    </div>
+</div>
